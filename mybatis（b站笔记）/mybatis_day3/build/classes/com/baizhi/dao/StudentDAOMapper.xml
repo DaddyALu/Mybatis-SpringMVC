@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.StudentDAO">
+
+
+	<resultMap type="com.baizhi.entity.Student" id="studentMap">
+		<id column="id" property="id"/>
+		<result column="name" property="name"/>
+		<result column="age" property="age"/>
+		<!-- 封装课程信息 一对多   collection类型 -->
+		<collection property="courses" javaType="list" ofType="com.baizhi.entity.Course">
+			<id column="cid" property="id"/>
+			<result column="cname" property="name"/>
+		</collection>
+	</resultMap>
+
+
+	<select id="queryAll" resultMap="studentMap">
+	  select s.id,s.name,s.age,
+			 c.id cid,c.name cname 
+			 from t_student s 
+	         left join t_student_course sc 
+	         on s.id = sc.sid
+	         left join t_course c
+	         on sc.cid = c.id
+	</select>
+
+	
+  
+</mapper>

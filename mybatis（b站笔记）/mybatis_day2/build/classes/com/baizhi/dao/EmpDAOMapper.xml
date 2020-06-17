@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.EmpDAO">
+
+
+	<insert id="insert" parameterType="Emp">
+		insert into t_emp values(#{id},#{name,jdbcType=VARCHAR},#{age,jdbcType=INTEGER},#{bir,jdbcType=DATE})		
+	</insert>
+	
+	<update id="update" parameterType="Emp">
+		update t_emp set name=#{name,jdbcType=VARCHAR},age=#{age,jdbcType=INTEGER},birthday=#{bir,jdbcType=DATE} where id=#{id}
+	</update>
+	
+	<select id="selectByPage"  resultType="Emp"> 
+		<!-- > &lt;  < &gt;    >= &lt;=   <= &gt;= -->
+		select e1.id,e1.name,e1.age,e1.bir from 
+			(select e.id,e.name,e.age,e.birthday bir,rownum r from 
+				(select id , name ,age , birthday from t_emp order by name) e
+			where rownum &lt;= #{pageNow}*#{pageSize} ) e1 
+		where r &gt;  (#{pageNow}-1)*#{pageSize}
+	</select>
+	
+	<select id="selectByLike" parameterType="String" resultType="Emp">
+		select id,name,age,birthday bir from t_emp where name like  '%'||#{keyWords}||'%'
+	</select>
+	
+	
+	
+  
+</mapper>

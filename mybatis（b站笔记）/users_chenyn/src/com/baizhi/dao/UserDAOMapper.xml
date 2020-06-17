@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.UserDAO">
+
+
+	<resultMap type="user" id="userMap">
+		<id column="id" property="id"/>
+		<result column="name" property="name"/>
+		<result column="age" property="age"/>
+		<result column="bir" property="bir"/>
+		<!-- 封装关系属性 一对一 -->
+		<association property="card" javaType="card">
+			<id column="cid" property="id"/>
+			<result column="address" property="address"/>
+			<result column="code" property="code"/>
+			<result column="fork" property="fork"/>
+		</association>
+	</resultMap>
+	
+	<select id="queryAll" resultMap="userMap">
+		select u.id,u.name,u.age,u.bir,
+			   c.id cid,c.address,c.no code,c.fork
+				from t_users u 
+				left join t_card c 
+				on u.id = c.userId
+	</select>
+	
+	<insert id="add" parameterType="user">
+		insert into t_users values (#{id},#{name},#{age},#{bir})
+	</insert>
+	
+	
+	<select id="queryAllNoCard" resultType="user">
+		select u.id,u.name,u.age,u.bir
+				from t_users u 
+				left join t_card c 
+				on u.id = c.userId where c.userId is null
+	</select>
+	
+	<select id="queryByKeywords" parameterType="user" resultMap="userMap">
+		select u.id,u.name,u.age,u.bir,
+			   c.id cid,c.address,c.no code,c.fork
+				from t_users u 
+				left join t_card c 
+				on u.id = c.userId 
+		<where>
+			<if test="name!=null and name!=''">
+				u.name like '%'||#{name}||'%'
+			</if>
+			<if test="age!=null">
+				or u.age = #{age}
+			</if>
+			<if test="bir!=null">
+				or u.bir = #{bir}
+			</if>
+			<if test="card.address!=null and card.address!=''">
+				or c.address like '%'||#{card.address}||'%'
+			</if>
+			<if test="card.fork!=null and card.fork!=''">
+				or c.fork = #{card.fork}
+			</if>
+			<if test="card.code!=null and card.code!=''">
+				or c.no = #{card.code}
+			</if>
+		</where>
+	</select>
+	
+	
+  
+</mapper>

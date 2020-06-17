@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.BookDAO">
+
+
+	<!-- sql sql语句片段复用标签 
+		id : 代表片段的唯一标识   (唯一)
+	-->
+	<sql id="commonFileds">
+		 id,name,publishDate pubDate,price,author
+	</sql>
+	
+	<select id="selectAll" parameterType="com.baizhi.entity.Book" resultType="com.baizhi.entity.Book">
+		<!-- 
+			include  使用外部的哪个sql片段
+			refid   使用片段的id
+		 -->
+		select <include refid="commonFileds"/> from t_book
+	</select>
+	
+	
+	<select id="selectByFields" parameterType="com.baizhi.entity.Book" resultType="com.baizhi.entity.Book">
+		select <include refid="commonFileds"/> from t_book
+		<where>
+			<if test="name!=null and name!=''">
+				name = #{name}
+			</if>
+			<if test="author!=null and author!=''">
+				and author = #{author}
+			</if>
+		</where>
+	</select>
+	
+	
+	<select id="selectByChoose" parameterType="com.baizhi.entity.Book" resultType="com.baizhi.entity.Book">
+		select <include refid="commonFileds"/> from t_book
+		where
+		<choose>
+			<when test="name!=null and name!=''">
+				name = #{name}
+			</when>
+			<when test="price!=null">
+				price = #{price}
+			</when>
+			<otherwise>
+				author = #{author}
+			</otherwise>
+		</choose>
+	</select>
+	
+	<update id="update" parameterType="com.baizhi.entity.Book">
+		update t_book 
+			<!-- 
+				prefix:加入前缀
+				prefixOverrides:去掉前缀
+				suffix:加入后缀
+				suffixOverrides:去掉后缀
+			 -->
+			<trim prefix="set"  suffix="where" suffixOverrides=",">
+				<if test="name!=null and name != ''">
+					name = #{name},
+				</if>
+				<if test="author!=null and author != ''">
+					author = #{author}
+				</if>
+			</trim>
+			 id = #{id}
+	</update>
+	
+	
+	<insert id="insertAll" parameterType="list">
+		BEGIN
+			<!-- 
+				collection:用来书写遍历集合类型
+				index : 当前遍历的索引  从0 开始
+				item  : 当前遍历元素的别名
+				open  : 在第一遍历之前加入的语句
+				close : 在最后一个次遍历之后加入的语句
+				separator: 在每一次遍历之后加入的语句   最后一次不加入
+			 -->
+			<foreach collection="list" close=";" index="i" item="book" separator=";">
+				insert into t_book values(#{book.id},#{book.name},#{book.pubDate},#{i},#{book.author})
+			</foreach>
+		
+		END;
+	</insert>
+
+	
+	
+
+	
+	
+	
+  
+</mapper>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.CardDAO">
+	
+	
+	
+	<resultMap type="com.baizhi.entity.Card" id="cardMap">
+		<id column="cardId" property="id"/>
+		<result column="no" property="no"/>
+		<result column="address" property="address"/>
+		<result column="fork" property="fork"/>
+		<!-- 处理一对一 -->
+		<association property="user" javaType="com.baizhi.entity.User">
+			<id column="userId" property="id"/>
+			<result column="name" property="name"/>
+			<result column="age" property="age"/>
+			<result column="bir" property="bir"/>
+		</association>
+	</resultMap>
+	
+	
+	<select id="queryAll" resultMap="cardMap">
+		select u.id userId,u.name,u.age,u.bir,
+	       c.id cardId,c.no,c.fork,c.address 
+		from t_users u 
+		left join t_card c 
+		on  u.cardId = c.id
+	</select>
+	
+	
+  
+</mapper>

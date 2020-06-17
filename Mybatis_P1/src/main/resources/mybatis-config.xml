@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+    <!-- 使用properties读取配置信息 -->
+    <properties resource="MybatisProperties.properties"/>
+
+    <!-- 可以有多个环境（创建多个数据库连接） -->
+    <environments default="dev">
+        <!--生产环境-->
+<!--        <environment id="pro">-->
+<!--            <transactionManager type="JDBC"/>-->
+<!--            &lt;!&ndash; 配置数据库连接信息 &ndash;&gt;-->
+<!--            <dataSource type="POOLED">-->
+<!--                <property name="driver" value="com.mysql.jdbc.Driver"/>-->
+<!--                <property name="url" value="jdbc:mysql://localhost:3306/mybatis"/>-->
+<!--                <property name="username" value="root"/>-->
+<!--                <property name="password" value="XDP"/>-->
+<!--            </dataSource>-->
+<!--        </environment>-->
+        <!--测试环境-->
+        <environment id="dev">
+            <!-- 事务管理  type：指定事务管理的方式 -->
+            <transactionManager type="JDBC"/>
+            <!-- 配置数据库连接信息  type：是否使用连接池形式 -->
+            <dataSource type="POOLED">
+                <!-- 连接信息 -->
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!-- 注册mapper配置文件 -->
+    <mappers>
+        <mapper resource="mapper/StudentDAOMapper.xml" />
+    </mappers>
+
+</configuration>

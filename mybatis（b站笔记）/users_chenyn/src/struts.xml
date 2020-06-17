@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN" "struts-2.1.7.dtd" >
+<struts>
+
+
+		<!-- 处理用户模块 -->
+		<package name="user" extends="struts-default" namespace="/user">
+			<action name="findAll" class="com.baizhi.action.UserAction" method="findAll">
+				<result >/user/showAllUsers.jsp</result>
+			</action>
+			<action name="add" class="com.baizhi.action.UserAction" method="add">
+				<result type="redirectAction">findAll</result>
+			</action>
+			<action name="findAllNoCard" class="com.baizhi.action.UserAction" method="findAllNoCard">
+				<result>/card/addUserCard.jsp</result>
+			</action>
+			<action name="findByKeywords" class="com.baizhi.action.UserAction" method="findByKeywords">
+				<result>/user/showAllUsers.jsp</result>
+			</action>
+		</package>
+		
+		<!-- 处理card模块 -->
+		<package name="card" extends="struts-default" namespace="/card">
+			<action name="add" class="com.baizhi.action.CardAction" method="add">
+				<result type="redirectAction">
+					<param name="namespace">/user</param>
+					<param name="actionName">findAll</param>
+				</result>
+			</action>
+		</package>
+
+
+</struts>

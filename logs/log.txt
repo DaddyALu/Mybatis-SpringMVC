@@ -1,0 +1,9 @@
+2020-06-17 21:27:27,035 [main] INFO [Log4jTest.Log4jTest] - 开始记录日志...
+2020-06-17 21:27:27,035 [main] INFO [Log4jTest.Log4jTest] - 循环打印0到10之间的整数
+2020-06-17 21:27:27,035 [main] INFO [Log4jTest.Log4jTest] - 结束日志!
+2020-06-17 21:30:51,725 [main] INFO [Log4jTest.Log4jTest] - 开始记录日志...
+2020-06-17 21:30:51,726 [main] INFO [Log4jTest.Log4jTest] - 循环打印0到10之间的整数
+2020-06-17 21:30:51,726 [main] INFO [Log4jTest.Log4jTest] - 结束日志!
+2020-06-17 21:30:56,067 [main] INFO [Log4jTest.Log4jTest] - 开始记录日志...
+2020-06-17 21:30:56,067 [main] INFO [Log4jTest.Log4jTest] - 循环打印0到10之间的整数
+2020-06-17 21:30:56,067 [main] INFO [Log4jTest.Log4jTest] - 结束日志!
